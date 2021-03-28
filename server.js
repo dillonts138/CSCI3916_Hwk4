@@ -105,25 +105,32 @@ router.route('/movies')
                 res.status(401).send({success: false, msg: "an unexpected error occured"});
             }
             else{
-                res.status(200).send({success: true, Title: movi.Title, Year: movi.Year, Genre: movi.Genre, Actors: movi.Actors});
+                if(req.body.Reviews == "true"){
+                    var reviewFind = new Review();
+                    reviewFind.Title = req.body.Title;
+                    reviewFind.Name = req.body.Name;
+                    reviewFind.Quote = req.body.Quote;
+                    reviewFind.Rating = req.body.Rating;
+                    Review.findOne({Title: reviewFind.Title}, function(err,revi){
+                        if(err){
+                            res.status(401).send({success: false, msg: "Error searching for review."});
+                        }
+                        else{
+                            res.status(200).send({success: true, Title: revi.Title, Name: revi.Name, Quote: revi.Quote, Rating: revi.Rating});
+                        }
+                    })
+                }
+                else {
+                    res.status(200).send({
+                        success: true,
+                        Title: movi.Title,
+                        Year: movi.Year,
+                        Genre: movi.Genre,
+                        Actors: movi.Actors
+                    });
+                }
             }
         })
-        if(req.body.Reviews === true){
-            var reviewFind = new Review();
-            reviewFind.Title = req.body.Title;
-            reviewFind.Name = req.body.Name;
-            reviewFind.Quote = req.body.Quote;
-            reviewFind.Rating = req.body.Rating;
-            Review.findOne({Title: reviewFind.Title}, function(err,revi){
-                if(err){
-                    res.status(401).send({success: false, msg: "Error searching for review."});
-                }
-                else{
-                    res.status(200).send({success: true, Title: revi.Title, Name: revi.Name, Quote: revi.Quote, Rating: revi.Rating});
-                }
-            })
-        }
-
     })
     .post(authJwtController.isAuthenticated, function (req, res) {
         if (!req.body.Title || !req.body.Genre || !req.body.Year || !req.body.Actors) {
@@ -138,26 +145,25 @@ router.route('/movies')
             if (err){
                 res.status(401).send({success: false, msg: "an unexpected error occurred"});
                 }
-            else{
+            else {
+                if (req.body.Reviews) {
+                    var reviewFind = new Review();
+                    reviewFind.Title = req.body.Title;
+                    reviewFind.Name = req.body.Name;
+                    reviewFind.Quote = req.body.Quote;
+                    reviewFind.Rating = req.body.Rating;
+                    reviewFind.save(function (err) {
+                        if (err) {
+                            res.status(401).send({success: false, msg: "Error saving review."});
+                        } else {
+                            res.status(200).send({success: true, msg: "Movie and review successfully created."});
+                        }
+                    })
+                } else {
                     res.status(200).send({success: true, msg: "Movie successfully created."});
                 }
+            }
             })
-
-        if(req.body.Reviews === true){
-            var reviewFind = new Review();
-            reviewFind.Title = req.body.Title;
-            reviewFind.Name = req.body.Name;
-            reviewFind.Quote = req.body.Quote;
-            reviewFind.Rating = req.body.Rating;
-            reviewFind.save(function(err){
-                if(err){
-                    res.status(401).send({success: false, msg: "Error saving review."});
-                }
-                else{
-                    res.status(200).send({success: true, msg: "Movie and review successfully created."});
-                }
-            })
-        }
     })
     .put(authJwtController.isAuthenticated, function (req, res) {
 
