@@ -114,7 +114,7 @@ router.route('/movies')
                     reviewFind.Rating = req.body.Rating;
                     Review.findOne({Title: reviewFind.Title}, function(err,revi){
                         if(err){
-                            res.status(401).send({success: false, msg: "Error searching for review."});
+                            res.status(401).send({success: false, msg: "Error searching for review." + err});
                         }
                         else{
                             res.status(200).send({success: true, Title: revi.Title, Name: revi.Name, Quote: revi.Quote, Rating: revi.Rating});
