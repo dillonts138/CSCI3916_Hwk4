@@ -155,7 +155,7 @@ router.route('/movies')
                     reviewFind.Rating = req.body.Rating;
                     reviewFind.save(function (err) {
                         if (err) {
-                            res.status(401).send({success: false, msg: "Error saving review."});
+                            res.status(401).send({success: false, msg: "Error saving review."  + err});
                         } else {
                             res.status(200).send({success: true, msg: "Movie and review successfully created."});
                         }
