@@ -105,7 +105,7 @@ router.route('/movies')
                 res.status(401).send({success: false, msg: "an unexpected error occured"});
             }
             else{
-                if(req.body.Reviews == true){
+                if(req.body.Reviews == "true"){
                     var reviewFind = new Review();
                     reviewFind.Title = req.body.Title;
                     reviewFind.Name = req.body.Name;
@@ -146,7 +146,7 @@ router.route('/movies')
                 res.status(401).send({success: false, msg: "an unexpected error occurred"});
                 }
             else {
-                if (req.body.Reviews == true) {
+                if (req.body.Reviews == "true") {
                     var reviewFind = new Review();
                     reviewFind.Title = req.body.Title;
                     reviewFind.Name = req.body.Name;
