@@ -108,7 +108,7 @@ router.route('/movies')
                 res.status(200).send({success: true, Title: movi.Title, Year: movi.Year, Genre: movi.Genre, Actors: movi.Actors});
             }
         })
-        if(req.body.Reviews == true){
+        if(req.body.Reviews){
             var reviewFind = new Review();
             reviewFind.Title = req.body.Title;
             reviewFind.Name = req.body.Name;
@@ -143,7 +143,7 @@ router.route('/movies')
                 }
             })
 
-        if(req.body.Reviews == true){
+        if(req.body.Reviews){
             var reviewFind = new Review();
             reviewFind.Title = req.body.Title;
             reviewFind.Name = req.body.Name;
@@ -154,7 +154,7 @@ router.route('/movies')
                     res.status(401).send({success: false, msg: "Error saving review."});
                 }
                 else{
-                    res.status(200).send({success: true, msg: "Movie successfully created."});
+                    res.status(200).send({success: true, msg: "Movie and review successfully created."});
                 }
             })
         }
