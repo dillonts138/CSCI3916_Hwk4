@@ -50,13 +50,11 @@ function getJSONObjectForMovieRequirement(req) {
     if (req.headers != null) {
         json.headers = req.headers;
     }
-    res.header('Access-Control-Allow-Origin', '*');
     return json;
 }
 
 router.post('/signup', function(req, res) {
     if (!req.body.username || !req.body.password) {
-        res.header('Access-Control-Allow-Origin', '*');
         res.json({success: false, msg: 'Please include both username and password to signup.'})
     } else {
         var user = new User();
@@ -68,15 +66,12 @@ router.post('/signup', function(req, res) {
         user.save(function(err){
             if (err) {
                 if (err.code == 11000)
-                    res.header('Access-Control-Allow-Origin', '*');
                     return res.json({ success: false, message: 'A user with that username already exists.'});
                 else{
-                    res.header('Access-Control-Allow-Origin', '*');
                     res.json({success: false, msg: 'Unexpected error occured.'});
                     return res.json(err);
                 }
             }
-            res.header('Access-Control-Allow-Origin', '*');
             res.json({success: true, msg: 'Successfully created new user.'})
         });
     }
@@ -96,7 +91,6 @@ router.post('/signin', function (req, res) {
             if (isMatch) {
                 var userToken = { id: user.id, username: user.username };
                 var token = jwt.sign(userToken, process.env.SECRET_KEY);
-                res.header('Access-Control-Allow-Origin', '*');
                 res.json ({success: true, token: 'JWT ' + token, userName: userToken});
             }
             else {
@@ -132,17 +126,14 @@ router.route('/movies')
                     reviewFind.Rating = req.body.Rating;
                     Review.findOne({Title: reviewFind.Title}, function(err,revi){
                         if(err){
-                            res.header('Access-Control-Allow-Origin', '*');
                             res.status(401).send({success: false, msg: "Error searching for review." + err});
                         }
                         else{
-                            res.header('Access-Control-Allow-Origin', '*');
                             res.status(200).send({success: true, Title: revi.Title, Name: revi.Name, Quote: revi.Quote, Rating: revi.Rating});
                         }
                     })
                 }
                 else {
-                    res.header('Access-Control-Allow-Origin', '*');
                     res.status(200).send({
                         success: true,
                         Title: movi.Title,
@@ -156,7 +147,6 @@ router.route('/movies')
     })
     .post(authJwtController.isAuthenticated, function (req, res) {
         if (!req.body.Title || !req.body.Genre || !req.body.Year || !req.body.Actors) {
-            res.header('Access-Control-Allow-Origin', '*');
             res.json({success: false, msg: 'Please include Title, Genre, Year, and Actors.'})
         }
         var movieFind = new Movie();
@@ -166,7 +156,6 @@ router.route('/movies')
         movieFind.Actors = req.body.Actors;
         movieFind.save(function (err){
             if (err){
-                res.header('Access-Control-Allow-Origin', '*');
                 res.status(401).send({success: false, msg: "an unexpected error occurred"});
                 }
             else {
@@ -180,12 +169,10 @@ router.route('/movies')
                         if (err) {
                             res.status(401).send({success: false, msg: "Error saving review."  + err});
                         } else {
-                            res.header('Access-Control-Allow-Origin', '*');
                             res.status(200).send({success: true, msg: "Movie and review successfully created."});
                         }
                     })
                 } else {
-                    res.header('Access-Control-Allow-Origin', '*');
                     res.status(200).send({success: true, msg: "Movie successfully created."});
                 }
             }
@@ -194,7 +181,6 @@ router.route('/movies')
     .put(authJwtController.isAuthenticated, function (req, res) {
 
         if (!req.body.Title || !req.body.Genre || !req.body.Year || !req.body.Actors) {
-            res.header('Access-Control-Allow-Origin', '*');
             res.json({success: false, msg: 'Please include Title, Genre, Year, and Actors.'})
         }
         var movieFind = new Movie();
@@ -217,7 +203,6 @@ router.route('/movies')
                         res.status(401).send({success: false, msg: "an unexpected error occurred"});
                     }
                     else{
-                        res.header('Access-Control-Allow-Origin', '*');
                         res.status(200).send({success: true, msg: "Movie successfully updated."});
                     }
                 })
@@ -226,7 +211,6 @@ router.route('/movies')
     })
     .delete(authController.isAuthenticated, function (req, res) {
         if (!req.body.Title || !req.body.Genre || !req.body.Year || !req.body.Actors) {
-            res.header('Access-Control-Allow-Origin', '*');
             res.json({success: false, msg: 'Please include Title, Genre, Year, and Actors.'})
         }
         var movieFind = new Movie();
@@ -239,7 +223,6 @@ router.route('/movies')
             if (err) {
                 res.status(401).send({success: false, msg: "an unexpected error occurred"});
             } else {
-                res.header('Access-Control-Allow-Origin', '*');
                 res.status(200).send({success: true, msg: "Movie successfully deleted."});
             }
         })
