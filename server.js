@@ -55,7 +55,7 @@ router.post('/signup', function(req, res) {
                     return res.json({ success: false, message: 'A user with that username already exists.'});
                 }
                 else{
-                    return res.json({success: false, msg: 'Unexpected error occured.'});
+                    return res.json({success: false, msg: 'Unexpected error occured while trying to save user.'});
                 }
             }
             return res.json({success: true, msg: 'Successfully created new user.'})
@@ -101,7 +101,7 @@ router.route('/movies')
 
         Movie.findOne({Title: movieFind.Title},function(err, movi){
             if (err){
-                res.status(401).send({success: false, msg: "an unexpected error occured"});
+                res.status(401).send({success: false, msg: "an unexpected error occured while trying to find movie"});
             }
             else{
                 if(req.body.Reviews == "true"){
@@ -142,7 +142,7 @@ router.route('/movies')
         movieFind.Actors = req.body.Actors;
         movieFind.save(function (err){
             if (err){
-                res.status(401).send({success: false, msg: "an unexpected error occurred"});
+                res.status(401).send({success: false, msg: "an unexpected error occurred while trying to save movie"});
                 }
             else {
                 if (req.body.Reviews == "true") {
@@ -186,7 +186,7 @@ router.route('/movies')
                 movi.Actors = movieFind.Actors;
                 movi.save(function(err){
                     if (err){
-                        res.status(401).send({success: false, msg: "an unexpected error occurred"});
+                        res.status(401).send({success: false, msg: "an unexpected error occurred while trying to save movie"});
                     }
                     else{
                         res.status(200).send({success: true, msg: "Movie successfully updated."});
@@ -207,7 +207,7 @@ router.route('/movies')
 
         Movie.findOneAndRemove({Title: movieFind.Title}, function (err, movi) {
             if (err) {
-                res.status(401).send({success: false, msg: "an unexpected error occurred"});
+                res.status(401).send({success: false, msg: "an unexpected error occurred while trying to delete movie"});
             } else {
                 res.status(200).send({success: true, msg: "Movie successfully deleted."});
             }
