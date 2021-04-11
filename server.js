@@ -93,7 +93,7 @@ router.route('/movies')
                     res.json({success: false, msg: err});
                 }
                 else{
-                    Reviews.find({}, function(err, ReviewList){
+                    Review.find({}, function(err, ReviewList){
                         if(err){
                             res.json({success: false, msg: err});
                         }
