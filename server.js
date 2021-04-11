@@ -122,18 +122,14 @@ router.route('/movies')
                             res.status(401).send({success: false, msg: "Error searching for review." + err});
                         }
                         else{
-                            res.status(200).send({success: true, Title: revi.Title, Name: revi.Name, Quote: revi.Quote, Rating: revi.Rating});
+                            res.status(200).send({success: true, Title: revi.Title, Name: revi.Name, Quote: revi.Quote, Rating: revi.Rating, selectedMovie: movi});
                         }
                     })
                 }
                 else {
                     res.status(200).send({
                         success: true,
-                        Title: movi.Title,
-                        Year: movi.Year,
-                        Genre: movi.Genre,
-                        Actors: movi.Actors,
-                        imageUrl: movi.imageUrl
+                        selectedMovie: movi
                     });
                 }
             }
