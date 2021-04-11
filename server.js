@@ -100,7 +100,7 @@ router.route('/movies')
                 res.status(401).send({success: false, msg: "an unexpected error occured while trying to find movie"});
             }
             else{
-                if(req.query.Reviews) == "true"){
+                if(req.query.Reviews == "true"){
                     var reviewFind = new Review();
                     reviewFind.Title = req.param.Title;
                     Review.findOne({Title: reviewFind.Title}, function(err,revi){
