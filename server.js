@@ -87,11 +87,11 @@ router.post('/signin', function (req, res) {
 
 router.route('/movies')
     .get(authJwtController.isAuthenticated, function (req, res) {
-        if (!req.body.Title) {
+        if (!req.header('Title')) {
             res.json({success: false, msg: 'Please include Title.'})
         }
         var movieFind = new Movie();
-        movieFind.Title = req.body.Title;
+        movieFind.Title = req.header('Title');
 
 
 
@@ -100,9 +100,9 @@ router.route('/movies')
                 res.status(401).send({success: false, msg: "an unexpected error occured while trying to find movie"});
             }
             else{
-                if(req.body.Reviews == "true"){
+                if(req.header('Reviews') == "true"){
                     var reviewFind = new Review();
-                    reviewFind.Title = req.body.Title;
+                    reviewFind.Title = req.header('Title');
                     Review.findOne({Title: reviewFind.Title}, function(err,revi){
                         if(err){
                             res.status(401).send({success: false, msg: "Error searching for review." + err});
@@ -198,11 +198,11 @@ router.route('/movies')
         })
     })
     .delete(authController.isAuthenticated, function (req, res) {
-        if (!req.body.Title) {
+        if (!req.header('Title')) {
             res.json({success: false, msg: 'Please include Title, Genre, Year, and Actors.'})
         }
         var movieFind = new Movie();
-        movieFind.Title = req.body.Title;
+        movieFind.Title = req.header('Title');
 
         Movie.findOneAndRemove({Title: movieFind.Title}, function (err, movi) {
             if (err) {
