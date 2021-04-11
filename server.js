@@ -23,7 +23,7 @@ app.use(passport.initialize());
 
 var router = express.Router();
 
-/*var allowCrossDomain = function(req, res, next) {
+var allowCrossDomain = function(req, res, next) {
     if ('OPTIONS' == req.method) {
       res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
@@ -33,7 +33,7 @@ var router = express.Router();
     else {
       next();
     }
-};*/
+};
 
 app.use(allowCrossDomain);
 
