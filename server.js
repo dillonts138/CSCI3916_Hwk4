@@ -100,9 +100,9 @@ router.route('/movies')
                         else{
                         res.json({success: true, movies: movieList, msg: "movie list sent", Reviews: ReviewList});
                         }
-                    }
+                    })
                 }
-            }
+            })
         }
         var movieFind = new Movie();
         movieFind.Title = req.param.Title;
