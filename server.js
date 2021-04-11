@@ -87,11 +87,11 @@ router.post('/signin', function (req, res) {
 
 router.route('/movies')
     .get(authJwtController.isAuthenticated, function (req, res) {
-        if (!req.header('Title')) {
+        if (!req.param.Title) {
             res.json({success: false, msg: 'Please include Title.'})
         }
         var movieFind = new Movie();
-        movieFind.Title = req.header('Title');
+        movieFind.Title = req.param.Title;
 
 
 
@@ -100,9 +100,9 @@ router.route('/movies')
                 res.status(401).send({success: false, msg: "an unexpected error occured while trying to find movie"});
             }
             else{
-                if(req.header('Reviews') == "true"){
+                if(req.query.Reviews) == "true"){
                     var reviewFind = new Review();
-                    reviewFind.Title = req.header('Title');
+                    reviewFind.Title = req.param.Title;
                     Review.findOne({Title: reviewFind.Title}, function(err,revi){
                         if(err){
                             res.status(401).send({success: false, msg: "Error searching for review." + err});
