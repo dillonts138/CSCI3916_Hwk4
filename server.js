@@ -23,7 +23,7 @@ app.use(passport.initialize());
 
 var router = express.Router();
 
-var allowCrossDomain = function(req, res, next) {
+/*var allowCrossDomain = function(req, res, next) {
     if ('OPTIONS' == req.method) {
       res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
@@ -33,7 +33,7 @@ var allowCrossDomain = function(req, res, next) {
     else {
       next();
     }
-};
+};*/
 
 app.use(allowCrossDomain);
 
@@ -73,7 +73,7 @@ router.post('/signup', function(req, res) {
                     return res.json(err);
                 }
             }
-
+            res.header('Access-Control-Allow-Origin', '*');
             res.json({success: true, msg: 'Successfully created new user.'})
         });
     }
@@ -93,6 +93,7 @@ router.post('/signin', function (req, res) {
             if (isMatch) {
                 var userToken = { id: user.id, username: user.username };
                 var token = jwt.sign(userToken, process.env.SECRET_KEY);
+                res.header('Access-Control-Allow-Origin', '*');
                 res.json ({success: true, token: 'JWT ' + token, userName: userToken});
             }
             else {
@@ -131,11 +132,13 @@ router.route('/movies')
                             res.status(401).send({success: false, msg: "Error searching for review." + err});
                         }
                         else{
+                            res.header('Access-Control-Allow-Origin', '*');
                             res.status(200).send({success: true, Title: revi.Title, Name: revi.Name, Quote: revi.Quote, Rating: revi.Rating});
                         }
                     })
                 }
                 else {
+                    res.header('Access-Control-Allow-Origin', '*');
                     res.status(200).send({
                         success: true,
                         Title: movi.Title,
@@ -171,10 +174,12 @@ router.route('/movies')
                         if (err) {
                             res.status(401).send({success: false, msg: "Error saving review."  + err});
                         } else {
+                            res.header('Access-Control-Allow-Origin', '*');
                             res.status(200).send({success: true, msg: "Movie and review successfully created."});
                         }
                     })
                 } else {
+                    res.header('Access-Control-Allow-Origin', '*');
                     res.status(200).send({success: true, msg: "Movie successfully created."});
                 }
             }
@@ -205,6 +210,7 @@ router.route('/movies')
                         res.status(401).send({success: false, msg: "an unexpected error occurred"});
                     }
                     else{
+                        res.header('Access-Control-Allow-Origin', '*');
                         res.status(200).send({success: true, msg: "Movie successfully updated."});
                     }
                 })
@@ -225,6 +231,7 @@ router.route('/movies')
             if (err) {
                 res.status(401).send({success: false, msg: "an unexpected error occurred"});
             } else {
+                res.header('Access-Control-Allow-Origin', '*');
                 res.status(200).send({success: true, msg: "Movie successfully deleted."});
             }
         })
