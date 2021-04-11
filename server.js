@@ -90,15 +90,15 @@ router.route('/movies')
         if (!req.param.Title) {
             Movie.find({}, function(err, movieList){
                 if(err){
-                    res.json({success: false, msg: err});
+                    return res.json({success: false, msg: err});
                 }
                 else{
                     Review.find({}, function(err, ReviewList){
                         if(err){
-                            res.json({success: false, msg: err});
+                            return res.json({success: false, msg: err});
                         }
                         else{
-                        res.json({success: true, movies: movieList, msg: "movie list sent", Reviews: ReviewList});
+                            return res.json({success: true, movies: movieList, msg: "movie list sent", Reviews: ReviewList});
                         }
                     })
                 }
@@ -111,7 +111,7 @@ router.route('/movies')
 
         Movie.findOne({Title: movieFind.Title},function(err, movi){
             if (err){
-                res.status(401).send({success: false, msg: "an unexpected error occured while trying to find movie"});
+                return res.status(401).send({success: false, msg: "an unexpected error occured while trying to find movie"});
             }
             else{
                 if(req.query.Reviews == "true"){
@@ -119,15 +119,15 @@ router.route('/movies')
                     reviewFind.Title = req.param.Title;
                     Review.findOne({Title: reviewFind.Title}, function(err,revi){
                         if(err){
-                            res.status(401).send({success: false, msg: "Error searching for review." + err});
+                            return res.status(401).send({success: false, msg: "Error searching for review." + err});
                         }
                         else{
-                            res.status(200).send({success: true, Title: revi.Title, Name: revi.Name, Quote: revi.Quote, Rating: revi.Rating, selectedMovie: movi});
+                            return res.status(200).send({success: true, Title: revi.Title, Name: revi.Name, Quote: revi.Quote, Rating: revi.Rating, selectedMovie: movi});
                         }
                     })
                 }
                 else {
-                    res.status(200).send({
+                    return res.status(200).send({
                         success: true,
                         selectedMovie: movi
                     });
