@@ -104,6 +104,7 @@ router.route('/movies')
                 }
             })
         }
+    else{
         var movieFind = new Movie();
         movieFind.Title = req.param.Title;
 
@@ -134,6 +135,7 @@ router.route('/movies')
                 }
             }
         })
+    }
     })
     .post(authJwtController.isAuthenticated, function (req, res) {
         if (!req.body.Title || !req.body.Genre || !req.body.Year || !req.body.Actors) {
