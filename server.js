@@ -88,7 +88,7 @@ router.post('/signin', function (req, res) {
 router.route('/movies')
     .get(authJwtController.isAuthenticated, function (req, res) {
         if (!req.body.Title) {
-            res.json({success: false, msg: 'Please include Title, Genre, Year, and Actors.'})
+            res.json({success: false, msg: 'Please include Title.'})
         }
         var movieFind = new Movie();
         movieFind.Title = req.body.Title;
@@ -118,7 +118,8 @@ router.route('/movies')
                         Title: movi.Title,
                         Year: movi.Year,
                         Genre: movi.Genre,
-                        Actors: movi.Actors
+                        Actors: movi.Actors,
+                        imageUrl: movi.imageUrl
                     });
                 }
             }
@@ -133,6 +134,9 @@ router.route('/movies')
         movieFind.Year = req.body.Year;
         movieFind.Genre = req.body.Genre;
         movieFind.Actors = req.body.Actors;
+        if(req.body.imageUrl){
+            movieFind.imageUrl = req.body.imageUrl;
+        }
         movieFind.save(function (err){
             if (err){
                 res.status(401).send({success: false, msg: "an unexpected error occurred while trying to save movie"});
@@ -167,7 +171,9 @@ router.route('/movies')
         movieFind.Year = req.body.Year;
         movieFind.Genre = req.body.Genre;
         movieFind.Actors = req.body.Actors;
-
+        if(req.body.imageUrl){
+            movieFind.imageUrl = req.body.imageUrl;
+        }
         Movie.findOne({Title: movieFind.Title},function(err, movi){
             if (err){
                 res.send(err);
@@ -177,6 +183,9 @@ router.route('/movies')
                 movi.Year = movieFind.Year;
                 movi.Genre = movieFind.Genre;
                 movi.Actors = movieFind.Actors;
+                if(req.body.imageUrl){
+                    movi.imageUrl = movieFind.imageUrl;
+                }
                 movi.save(function(err){
                     if (err){
                         res.status(401).send({success: false, msg: "an unexpected error occurred while trying to save movie"});
@@ -194,9 +203,6 @@ router.route('/movies')
         }
         var movieFind = new Movie();
         movieFind.Title = req.body.Title;
-        movieFind.Year = req.body.Year;
-        movieFind.Genre = req.body.Genre;
-        movieFind.Actors = req.body.Actors;
 
         Movie.findOneAndRemove({Title: movieFind.Title}, function (err, movi) {
             if (err) {
