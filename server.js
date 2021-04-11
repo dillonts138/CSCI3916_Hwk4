@@ -87,14 +87,11 @@ router.post('/signin', function (req, res) {
 
 router.route('/movies')
     .get(authJwtController.isAuthenticated, function (req, res) {
-        if (!req.body.Title || !req.body.Genre || !req.body.Year || !req.body.Actors) {
+        if (!req.body.Title) {
             res.json({success: false, msg: 'Please include Title, Genre, Year, and Actors.'})
         }
         var movieFind = new Movie();
         movieFind.Title = req.body.Title;
-        movieFind.Year = req.body.Year;
-        movieFind.Genre = req.body.Genre;
-        movieFind.Actors = req.body.Actors;
 
 
 
@@ -106,9 +103,6 @@ router.route('/movies')
                 if(req.body.Reviews == "true"){
                     var reviewFind = new Review();
                     reviewFind.Title = req.body.Title;
-                    reviewFind.Name = req.body.Name;
-                    reviewFind.Quote = req.body.Quote;
-                    reviewFind.Rating = req.body.Rating;
                     Review.findOne({Title: reviewFind.Title}, function(err,revi){
                         if(err){
                             res.status(401).send({success: false, msg: "Error searching for review." + err});
@@ -195,7 +189,7 @@ router.route('/movies')
         })
     })
     .delete(authController.isAuthenticated, function (req, res) {
-        if (!req.body.Title || !req.body.Genre || !req.body.Year || !req.body.Actors) {
+        if (!req.body.Title) {
             res.json({success: false, msg: 'Please include Title, Genre, Year, and Actors.'})
         }
         var movieFind = new Movie();
