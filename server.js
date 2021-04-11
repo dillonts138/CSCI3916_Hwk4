@@ -85,10 +85,32 @@ router.post('/signin', function (req, res) {
     })
 });
 
+
+router.rout('/movielist')
+    Movie.find({}, function(err, movieList){
+        if(err){
+            res.json({success: false, msg: err});
+        }
+        else{
+            
 router.route('/movies')
     .get(authJwtController.isAuthenticated, function (req, res) {
         if (!req.param.Title) {
-            res.json({success: false, msg: 'Please include Title.'})
+            Movie.find({}, function(err, movieList){
+                if(err){
+                    res.json({success: false, msg: err});
+                }
+                else{
+                    Reviews.find({}, function(err, ReviewList){
+                        if(err){
+                            res.json({success: false, msg: err});
+                        }
+                        else{
+                        res.json({success: true, movies: movieList, msg: "movie list sent", Reviews: ReviewList});
+                        }
+                    }
+                }
+            }
         }
         var movieFind = new Movie();
         movieFind.Title = req.param.Title;
