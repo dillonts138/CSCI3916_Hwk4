@@ -55,7 +55,6 @@ router.post('/signup', function(req, res) {
                     return res.json({ success: false, message: 'A user with that username already exists.'});
                 else{
                     res.json({success: false, msg: 'Unexpected error occured.'});
-                    return res.json(err);
                 }
             }
             return res.json({success: true, msg: 'Successfully created new user.'})
