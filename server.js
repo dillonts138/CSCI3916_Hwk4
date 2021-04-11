@@ -41,7 +41,7 @@ function getJSONObjectForMovieRequirement(req) {
 
 router.post('/signup', function(req, res) {
     if (!req.body.username || !req.body.password) {
-        res.json({success: false, msg: 'Please include both username and password to signup.'})
+        return res.json({success: false, msg: 'Please include both username and password to signup.'})
     } else {
         var user = new User();
         user.name = req.body.name;
@@ -58,7 +58,7 @@ router.post('/signup', function(req, res) {
                     return res.json(err);
                 }
             }
-            res.json({success: true, msg: 'Successfully created new user.'})
+            return res.json({success: true, msg: 'Successfully created new user.'})
         });
     }
 });
@@ -77,7 +77,7 @@ router.post('/signin', function (req, res) {
             if (isMatch) {
                 var userToken = { id: user.id, username: user.username };
                 var token = jwt.sign(userToken, process.env.SECRET_KEY);
-                res.json ({success: true, token: 'JWT ' + token, userName: userToken});
+                return res.json ({success: true, token: 'JWT ' + token, userName: userToken});
             }
             else {
                 res.status(401).send({success: false, msg: 'Authentication failed.'});
@@ -133,7 +133,7 @@ router.route('/movies')
     })
     .post(authJwtController.isAuthenticated, function (req, res) {
         if (!req.body.Title || !req.body.Genre || !req.body.Year || !req.body.Actors) {
-            res.json({success: false, msg: 'Please include Title, Genre, Year, and Actors.'})
+            return res.json({success: false, msg: 'Please include Title, Genre, Year, and Actors.'})
         }
         var movieFind = new Movie();
         movieFind.Title = req.body.Title;
