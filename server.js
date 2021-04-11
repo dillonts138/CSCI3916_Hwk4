@@ -56,6 +56,7 @@ function getJSONObjectForMovieRequirement(req) {
 
 router.post('/signup', function(req, res) {
     if (!req.body.username || !req.body.password) {
+        res.header('Access-Control-Allow-Origin', '*');
         res.json({success: false, msg: 'Please include both username and password to signup.'})
     } else {
         var user = new User();
@@ -70,6 +71,7 @@ router.post('/signup', function(req, res) {
                     res.header('Access-Control-Allow-Origin', '*');
                     return res.json({ success: false, message: 'A user with that username already exists.'});
                 else{
+                    res.header('Access-Control-Allow-Origin', '*');
                     res.json({success: false, msg: 'Unexpected error occured.'});
                     return res.json(err);
                 }
