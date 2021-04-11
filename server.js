@@ -51,10 +51,11 @@ router.post('/signup', function(req, res) {
 
         user.save(function(err){
             if (err) {
-                if (err.code == 11000)
+                if (err.code == 11000){
                     return res.json({ success: false, message: 'A user with that username already exists.'});
+                }
                 else{
-                    res.json({success: false, msg: 'Unexpected error occured.'});
+                    return res.json({success: false, msg: 'Unexpected error occured.'});
                 }
             }
             return res.json({success: true, msg: 'Successfully created new user.'})
