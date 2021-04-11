@@ -41,7 +41,7 @@ UserSchema.methods.comparePassword = function (password, callback) {
 
     bcrypt.compare(password, user.password, function(err, isMatch) {
         callback(isMatch);
-    })
+    });
 }
 
 //return the model to server
