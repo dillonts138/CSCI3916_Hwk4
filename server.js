@@ -90,15 +90,15 @@ router.route('/movies')
         if (!req.param.Title) {
             Movie.find({}, function(err, movieList){
                 if(err){
-                    return res.json({success: false, msg: err});
+                   return res.status(400).send({success: false, msg: err});
                 }
                 else{
                     Review.find({}, function(err, ReviewList){
                         if(err){
-                            return res.json({success: false, msg: err});
+                           return res.status(400).send({success: false, msg: err});
                         }
                         else{
-                            return res.json({success: true, movies: movieList, msg: "movie list sent", Reviews: ReviewList});
+                           return res.status(200).send({success: true, movies: movieList, msg: "movie list sent", Reviews: ReviewList});
                         }
                     })
                 }
