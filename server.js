@@ -85,14 +85,6 @@ router.post('/signin', function (req, res) {
     })
 });
 
-
-router.rout('/movielist')
-    Movie.find({}, function(err, movieList){
-        if(err){
-            res.json({success: false, msg: err});
-        }
-        else{
-            
 router.route('/movies')
     .get(authJwtController.isAuthenticated, function (req, res) {
         if (!req.param.Title) {
